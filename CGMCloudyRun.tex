@@ -1,0 +1,1047 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for grffile with XeLaTeX
+    \def\Gread@@xetex#1{%
+      \IfFileExists{"\Gin@base".bb}%
+      {\Gread@eps{\Gin@base.bb}}%
+      {\Gread@@xetex@aux#1}%
+    }
+    \makeatother
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{CGMCloudyRun}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        \ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pyCloudy} \PY{k}{as} \PY{n+nn}{pc}
+\PY{k+kn}{import} \PY{n+nn}{os}
+\PY{n}{pc}\PY{o}{.}\PY{n}{log\PYZus{}}\PY{o}{.}\PY{n}{level} \PY{o}{=} \PY{l+m+mi}{3}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+warng pyCloudy config: pyCloudy works better with PyNeb
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{\PYZus{}\PYZus{}future\PYZus{}\PYZus{}} \PY{k+kn}{import} \PY{n}{print\PYZus{}function}
+\PY{k+kn}{from} \PY{n+nn}{ipywidgets} \PY{k+kn}{import} \PY{n}{interact}\PY{p}{,} \PY{n}{interactive}\PY{p}{,} \PY{n}{fixed}\PY{p}{,} \PY{n}{interact\PYZus{}manual}
+\PY{k+kn}{import} \PY{n+nn}{ipywidgets} \PY{k}{as} \PY{n+nn}{widgets}
+\PY{k+kn}{from} \PY{n+nn}{ipywidgets} \PY{k+kn}{import} \PY{n}{Button}\PY{p}{,} \PY{n}{Layout}
+\PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k+kn}{import} \PY{n}{display}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{this-will-be-the-style-for-the-button-font}{%
+\subparagraph{This will be the style for the button
+font}\label{this-will-be-the-style-for-the-button-font}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}html}
+\PY{p}{\PYZlt{}}\PY{n+nt}{style}\PY{p}{\PYZgt{}}\PY{err}{.}\PY{err}{m}\PY{err}{y}\PY{err}{c}\PY{err}{l}\PY{err}{a}\PY{err}{s}\PY{err}{s}\PY{err}{ }\PY{err}{\PYZob{}}\PY{err}{ }\PY{err}{c}\PY{err}{o}\PY{err}{l}\PY{err}{o}\PY{err}{r}\PY{err}{:}\PY{err}{w}\PY{err}{h}\PY{err}{i}\PY{err}{t}\PY{err}{e}\PY{err}{ }\PY{err}{;}\PY{err}{ }\PY{err}{f}\PY{err}{o}\PY{err}{n}\PY{err}{t}\PY{err}{\PYZhy{}}\PY{err}{s}\PY{err}{i}\PY{err}{z}\PY{err}{e}\PY{err}{:}\PY{err}{1}\PY{err}{5}\PY{err}{0}\PY{err}{\PYZpc{}}\PY{err}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{verbatim}
+<IPython.core.display.HTML object>
+    \end{verbatim}
+
+    
+    \#\# Create Input Script
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Define path to executable}
+\PY{n}{dir\PYZus{}} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{make}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ASTR302}\PY{l+s+s1}{\PYZsq{}} \PY{c+c1}{\PYZsh{}will also be punch prefix}
+\PY{n}{pathtorun}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}0\PYZcb{}}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{dir\PYZus{}}\PY{p}{,} \PY{n}{make}\PY{p}{)} \PY{c+c1}{\PYZsh{}path to input script}
+\PY{n}{pathtoexec}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/Users/danielpiacitelli/nublado/c17.02/source/cloudy.exe}\PY{l+s+s1}{\PYZsq{}} \PY{c+c1}{\PYZsh{}path to Cloudy executable }
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{temperature-command}{%
+\subparagraph{Temperature command}\label{temperature-command}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Topt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CONSTANT TEMPERATURE}\PY{l+s+s1}{\PYZsq{}} \PY{c+c1}{\PYZsh{}can also be SET TEMP}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{choose-of-which-lines-emisitivity-is-needed}{%
+\subparagraph{Choose of which lines emisitivity is
+needed}\label{choose-of-which-lines-emisitivity-is-needed}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{emis} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H  1  4861.33A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H  1  6562.81A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{O 6  1031.00A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{O  6 1037.62A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{opti} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CMB redshift 0.2000000}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{no molecules}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{table HM96}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Print column densities on}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{c+c1}{\PYZsh{}mostly miscellaneous manipulations}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{createinput}\PY{p}{(}\PY{n}{Temperature}\PY{p}{,} \PY{n}{HDensity}\PY{p}{,} \PY{n}{Metallicity}\PY{p}{)}\PY{p}{:}
+    \PY{n}{T}\PY{o}{=}\PY{n}{Temperature} \PY{c+c1}{\PYZsh{}K Linear}
+    \PY{n}{H}\PY{o}{=}\PY{n}{HDensity} \PY{c+c1}{\PYZsh{}Log /cm\PYZca{}3}
+    \PY{n}{M}\PY{o}{=}\PY{n}{Metallicity} \PY{c+c1}{\PYZsh{}Log }
+    \PY{n}{distance}\PY{o}{=} \PY{l+m+mf}{300000.0} \PY{c+c1}{\PYZsh{} Linear kpc and mostly meaningless for CGM purposes}
+    \PY{n}{manip}\PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}0\PYZcb{}}\PY{l+s+s1}{ }\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{metals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n+nb}{str}\PY{p}{(}\PY{n}{M}\PY{p}{)}\PY{p}{)}\PY{p}{]} \PY{o}{+} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}0\PYZcb{}}\PY{l+s+s1}{ }\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s1}{ }\PY{l+s+si}{\PYZob{}2\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{Topt}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1e0}\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n}{T}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K linear}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]} \PY{o}{+} \PY{n}{opti}
+    \PY{n}{stop}\PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{proton column density 15.500000}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{temperature = 10000K [linear]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{c+c1}{\PYZsh{}stopping criteria}
+    \PY{n}{run} \PY{o}{=} \PY{n}{pc}\PY{o}{.}\PY{n}{CloudyInput}\PY{p}{(}\PY{n}{pathtorun}\PY{p}{)}\PY{p}{;}
+    \PY{n}{run}\PY{o}{.}\PY{n}{set\PYZus{}cste\PYZus{}density}\PY{p}{(}\PY{n}{H}\PY{p}{,} \PY{n}{ff} \PY{o}{=} \PY{k+kc}{None} \PY{p}{)}\PY{p}{;}\PY{n}{run}\PY{o}{.}\PY{n}{set\PYZus{}distance}\PY{p}{(}\PY{n}{dist}\PY{o}{=}\PY{n}{distance}\PY{p}{,} \PY{n}{unit}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{kpc}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linear}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{;}
+    \PY{n}{run}\PY{o}{.}\PY{n}{set\PYZus{}abund}\PY{p}{(}\PY{n}{nograins} \PY{o}{=} \PY{k+kc}{True}\PY{p}{)}\PY{p}{;}
+    \PY{n}{run}\PY{o}{.}\PY{n}{set\PYZus{}iterate}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{} (0) = no iteration, () = 1 iteration, (N) = N iterations}
+    \PY{n}{run}\PY{o}{.}\PY{n}{set\PYZus{}emis\PYZus{}tab}\PY{p}{(}\PY{n}{emis}\PY{p}{)}\PY{p}{;} \PY{c+c1}{\PYZsh{}insert list of desired lines}
+    \PY{n}{run}\PY{o}{.}\PY{n}{set\PYZus{}other}\PY{p}{(}\PY{n}{manip}\PY{p}{)}\PY{p}{;}
+    \PY{n}{run}\PY{o}{.}\PY{n}{set\PYZus{}stop}\PY{p}{(}\PY{n}{stop}\PY{p}{)}\PY{p}{;} \PY{c+c1}{\PYZsh{}will insert our stopping criteria}
+    \PY{n}{run}\PY{o}{.}\PY{n}{print\PYZus{}input}\PY{p}{(}\PY{n}{to\PYZus{}file} \PY{o}{=} \PY{k+kc}{True}\PY{p}{,} \PY{n}{verbose} \PY{o}{=} \PY{k+kc}{False}\PY{p}{)}
+    \PY{k}{return} \PY{n}{run}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Temperature is in Kelvin and Linear, HDensity is in /cm\PYZca{}3 and Log, Metallicity is Log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{T}\PY{o}{=}\PY{n}{widgets}\PY{o}{.}\PY{n}{IntSlider}\PY{p}{(}\PY{n}{value}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,}\PY{n+nb}{min}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{step}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}\PY{n+nb}{max}\PY{o}{=}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{;} \PY{n}{H}\PY{o}{=}\PY{n}{widgets}\PY{o}{.}\PY{n}{FloatSlider}\PY{p}{(}\PY{n}{value}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mf}{2.5}\PY{p}{,}\PY{n+nb}{min}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{6}\PY{p}{,}\PY{n+nb}{max}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{step}\PY{o}{=}\PY{l+m+mf}{0.25}\PY{p}{)}\PY{p}{;} \PY{n}{M}\PY{o}{=}\PY{n}{widgets}\PY{o}{.}\PY{n}{IntSlider}\PY{p}{(}\PY{n}{value}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{n+nb}{min}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{,}\PY{n+nb}{max}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{step}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{;}
+\PY{n}{ui} \PY{o}{=} \PY{n}{widgets}\PY{o}{.}\PY{n}{HBox}\PY{p}{(}\PY{p}{[}\PY{n}{T}\PY{p}{,} \PY{n}{H}\PY{p}{,} \PY{n}{M}\PY{p}{]}\PY{p}{)}
+\PY{n}{T}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{handle\PYZus{}color} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}738678}\PY{l+s+s1}{\PYZsq{}}\PY{p}{;}\PY{n}{H}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{handle\PYZus{}color} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}738678}\PY{l+s+s1}{\PYZsq{}}\PY{p}{;}\PY{n}{M}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{handle\PYZus{}color} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}738678}\PY{l+s+s1}{\PYZsq{}}\PY{p}{;}
+\PY{n}{interact}\PY{p}{(}\PY{n}{createinput}\PY{p}{,}\PY{n}{Temperature}\PY{o}{=}\PY{n}{T}\PY{p}{,}\PY{n}{HDensity}\PY{o}{=}\PY{n}{H}\PY{p}{,}\PY{n}{Metallicity}\PY{o}{=}\PY{n}{M}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Temperature is in Kelvin and Linear, HDensity is in /cm\^{}3 and Log, Metallicity
+is Log
+    \end{Verbatim}
+
+    
+    \begin{verbatim}
+interactive(children=(IntSlider(value=5, description='Temperature', max=8, style=SliderStyle(handle_color='#73…
+    \end{verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{b} \PY{o}{=} \PY{n}{Button}\PY{p}{(}\PY{n}{description}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Run Cloudy with last run file}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{layout}\PY{o}{=}\PY{n}{Layout}\PY{p}{(}\PY{n}{width}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{50}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{80px}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{b}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{button\PYZus{}color} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}738678}\PY{l+s+s1}{\PYZsq{}}\PY{p}{;}\PY{n}{b}\PY{o}{.}\PY{n}{add\PYZus{}class}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{myclass}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{output} \PY{o}{=} \PY{n}{widgets}\PY{o}{.}\PY{n}{Output}\PY{p}{(}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{runCloudy}\PY{p}{(}\PY{n}{b}\PY{p}{)}\PY{p}{:}
+    \PY{n}{run} \PY{o}{=} \PY{n}{pc}\PY{o}{.}\PY{n}{CloudyInput}\PY{p}{(}\PY{n}{pathtorun}\PY{p}{)}\PY{p}{;}
+    \PY{n}{pc}\PY{o}{.}\PY{n}{config}\PY{o}{.}\PY{n}{cloudy\PYZus{}exe} \PY{o}{=} \PY{n}{pathtoexec}\PY{p}{;}
+    \PY{n}{pc}\PY{o}{.}\PY{n}{log\PYZus{}}\PY{o}{.}\PY{n}{timer}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Starting Cloudy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{quiet} \PY{o}{=} \PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{run}\PY{o}{.}\PY{n}{run\PYZus{}cloudy}\PY{p}{(}\PY{p}{)}
+    \PY{k}{with} \PY{n}{output}\PY{p}{:}
+        \PY{n}{pc}\PY{o}{.}\PY{n}{log\PYZus{}}\PY{o}{.}\PY{n}{message}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ran }\PY{l+s+si}{\PYZob{}0\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{make}\PY{p}{)}\PY{p}{)}
+        \PY{n}{pc}\PY{o}{.}\PY{n}{log\PYZus{}}\PY{o}{.}\PY{n}{timer}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Cloudy ended after seconds:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}   
+\PY{n}{display}\PY{p}{(}\PY{n}{b}\PY{p}{,} \PY{n}{output}\PY{p}{)}
+\PY{n}{b}\PY{o}{.}\PY{n}{on\PYZus{}click}\PY{p}{(}\PY{n}{runCloudy}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{verbatim}
+Button(description='Run Cloudy with last run file', layout=Layout(height='80px', width='50%'), style=ButtonSty…
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+Output()
+    \end{verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{pandas-tables}{%
+\subsection{Pandas Tables}\label{pandas-tables}}
+
+    \hypertarget{returns-ovr-table-with-temperature-htot-hydrogen-density-e-density-and-ovi-density}{%
+\subparagraph{Returns ovr table with Temperature, Htot, hydrogen
+density, e density, and OVI
+density}\label{returns-ovr-table-with-temperature-htot-hydrogen-density-e-density-and-ovi-density}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{212}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{vari}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.ovr}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{table}\PY{o}{=}\PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}0\PYZcb{}}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{make}\PY{p}{,} \PY{n}{vari}\PY{p}{)}\PY{p}{,}\PY{n}{delimiter}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{	}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ovr}\PY{o}{=}\PY{n}{table}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Te}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Htot}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hden}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{eden}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{O5}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\PY{n}{Temp}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{n}{ovr}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Te}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{ovr}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{212}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+          \#depth           Te          Htot      hden      eden            O5
+0   2.500000e+16  100000000.0  1.501000e-34  0.003162  0.003798  5.350200e-16
+1   9.750000e+16  100000000.0  1.501000e-34  0.003162  0.003798  5.350200e-16
+2   1.877500e+17  100000000.0  1.501000e-34  0.003162  0.003798  5.350200e-16
+3   2.689750e+17  100000000.0  1.501000e-34  0.003162  0.003798  5.350200e-16
+4   3.420780e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+5   4.078700e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+6   4.670830e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+7   5.203750e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+8   5.683370e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+9   6.115040e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+10  6.503530e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+11  6.853180e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+12  7.167860e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+13  7.451080e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+14  7.705970e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+15  7.935370e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+16  8.141830e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+17  8.327650e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+18  8.494890e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+19  8.645400e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+20  8.780860e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+21  8.902770e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+22  9.012500e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+23  9.114470e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+24  9.214470e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+25  9.314470e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+26  9.414470e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+27  9.514470e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+28  9.614470e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+29  9.714470e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+30  9.814470e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+31  9.914470e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+32  9.982240e+17  100000000.0  1.501000e-34  0.003162  0.003798  1.175500e-36
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{returns-emis-table-with-emissivity-of-h-1-4861.33a-h-1-6562.81a-o-6-1031.00a-o-6-1037.62a}{%
+\subparagraph{Returns emis table with Emissivity of H 1 4861.33A, H 1
+6562.81A, O 6 1031.00A, O 6
+1037.62A}\label{returns-emis-table-with-emissivity-of-h-1-4861.33a-h-1-6562.81a-o-6-1031.00a-o-6-1037.62a}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{213}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{vari}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.emis}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{emis}\PY{o}{=}\PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}0\PYZcb{}}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{make}\PY{p}{,} \PY{n}{vari}\PY{p}{)}\PY{p}{,}\PY{n}{delimiter}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{	}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{emis}\PY{o}{.}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H1\PYZhy{}4861.33A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H1\PYZhy{}6562.81A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{O6\PYZhy{}1031.91A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{O6\PYZhy{}1037.62A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{}isolates the 1031 and 1037 lines as independent tables}
+\PY{n}{tenthirtyone}\PY{o}{=} \PY{n}{emis}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{O6\PYZhy{}1031.91A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} 
+\PY{n}{tenthirtyseven}\PY{o}{=} \PY{n}{emis}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{O6\PYZhy{}1037.62A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{}tenthirtyone}
+\PY{c+c1}{\PYZsh{}tenthirtyseven}
+\PY{n}{emis}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{213}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+          \#depth   H1-4861.33A   H1-6562.81A   O6-1031.91A   O6-1037.62A
+0   2.500000e+16  1.537200e-35  4.178600e-35  2.162700e-39  1.075700e-39
+1   9.750000e+16  1.537200e-35  4.178700e-35  2.162700e-39  1.075700e-39
+2   1.877500e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+3   2.689750e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+4   3.420780e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+5   4.078700e+17  1.537300e-35  4.178700e-35  0.000000e+00  0.000000e+00
+6   4.670830e+17  1.537300e-35  4.178700e-35  2.163600e-39  1.076200e-39
+7   5.203750e+17  1.537300e-35  4.178700e-35  0.000000e+00  0.000000e+00
+8   5.683370e+17  1.537300e-35  4.178700e-35  2.163600e-39  1.076200e-39
+9   6.115040e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+10  6.503530e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+11  6.853180e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+12  7.167860e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+13  7.451080e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+14  7.705970e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+15  7.935370e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+16  8.141830e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+17  8.327650e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+18  8.494890e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+19  8.645400e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+20  8.780860e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+21  8.902770e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+22  9.012500e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+23  9.114470e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+24  9.214470e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+25  9.314470e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+26  9.414470e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+27  9.514470e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+28  9.614470e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+29  9.714470e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+30  9.814470e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+31  9.914470e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+32  9.982240e+17  1.537300e-35  4.178700e-35  2.162700e-39  1.075700e-39
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{returns-eleh-table-with-h-h-h2-probabilites-for-each-zone}{%
+\subparagraph{Returns eleH table with H H+ H2 probabilites for each
+zone}\label{returns-eleh-table-with-h-h-h2-probabilites-for-each-zone}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{214}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}returns eleH table with H	H+	H2 probabilites for each zone}
+
+\PY{n}{vari}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.ele\PYZus{}H}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{eleH}\PY{o}{=}\PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}0\PYZcb{}}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{make}\PY{p}{,} \PY{n}{vari}\PY{p}{)}\PY{p}{,}\PY{n}{delimiter}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{	}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}print(eleH)}
+\PY{c+c1}{\PYZsh{}returns eleO table with O	O+	O+2	O+3	O+4	O+5	O+6	O+7	O+8	O[1]	O[2]	O[3] probabilites for each zone}
+\PY{n}{vari}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.ele\PYZus{}O}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{eleO}\PY{o}{=}\PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}0\PYZcb{}}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{make}\PY{p}{,}\PY{n}{vari}\PY{p}{)}\PY{p}{,}\PY{n}{delimiter}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{	}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{eleO}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{214}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+          \#depth    O            O+           O+2           O+3           O+4  \textbackslash{}
+0   2.500000e+16  0.0  4.970000e-34  2.570000e-27  1.960000e-21  5.350000e-16
+1   9.750000e+16  0.0  0.000000e+00  2.570000e-27  1.960000e-21  5.350000e-16
+2   1.877500e+17  0.0  0.000000e+00  0.000000e+00  1.960000e-21  5.350000e-16
+3   2.689750e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  5.350000e-16
+4   3.420780e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+5   4.078700e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+6   4.670830e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+7   5.203750e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+8   5.683370e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+9   6.115040e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+10  6.503530e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+11  6.853180e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+12  7.167860e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+13  7.451080e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+14  7.705970e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+15  7.935370e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+16  8.141830e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+17  8.327650e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+18  8.494890e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+19  8.645400e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+20  8.780860e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+21  8.902770e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+22  9.012500e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+23  9.114470e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+24  9.214470e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+25  9.314470e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+26  9.414470e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+27  9.514470e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+28  9.614470e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+29  9.714470e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+30  9.814470e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+31  9.914470e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+32  9.982240e+17  0.0  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+
+             O+5           O+6       O+7    O+8  O[1]  O[2]  O[3]
+0   3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+1   3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+2   3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+3   3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+4   3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+5   0.000000e+00  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+6   3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+7   0.000000e+00  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+8   3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+9   3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+10  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+11  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+12  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+13  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+14  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+15  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+16  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+17  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+18  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+19  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+20  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+21  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+22  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+23  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+24  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+25  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+26  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+27  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+28  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+29  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+30  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+31  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+32  3.770000e-11  2.220000e-07  0.000561  0.999   0.0   0.0   0.0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{returns-table-ovi_prob-with-ovi-probabilites-for-each-zone}{%
+\subparagraph{Returns table OVI\_prob with OVI probabilites for each
+zone}\label{returns-table-ovi_prob-with-ovi-probabilites-for-each-zone}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{215}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{OVI\PYZus{}prob} \PY{o}{=} \PY{n}{eleO}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{O+5}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\PY{n}{OVI\PYZus{}prob}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{215}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+          \#depth           O+5
+0   2.500000e+16  3.770000e-11
+1   9.750000e+16  3.770000e-11
+2   1.877500e+17  3.770000e-11
+3   2.689750e+17  3.770000e-11
+4   3.420780e+17  3.770000e-11
+5   4.078700e+17  0.000000e+00
+6   4.670830e+17  3.770000e-11
+7   5.203750e+17  0.000000e+00
+8   5.683370e+17  3.770000e-11
+9   6.115040e+17  3.770000e-11
+10  6.503530e+17  3.770000e-11
+11  6.853180e+17  3.770000e-11
+12  7.167860e+17  3.770000e-11
+13  7.451080e+17  3.770000e-11
+14  7.705970e+17  3.770000e-11
+15  7.935370e+17  3.770000e-11
+16  8.141830e+17  3.770000e-11
+17  8.327650e+17  3.770000e-11
+18  8.494890e+17  3.770000e-11
+19  8.645400e+17  3.770000e-11
+20  8.780860e+17  3.770000e-11
+21  8.902770e+17  3.770000e-11
+22  9.012500e+17  3.770000e-11
+23  9.114470e+17  3.770000e-11
+24  9.214470e+17  3.770000e-11
+25  9.314470e+17  3.770000e-11
+26  9.414470e+17  3.770000e-11
+27  9.514470e+17  3.770000e-11
+28  9.614470e+17  3.770000e-11
+29  9.714470e+17  3.770000e-11
+30  9.814470e+17  3.770000e-11
+31  9.914470e+17  3.770000e-11
+32  9.982240e+17  3.770000e-11
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{calculations}{%
+\subsection{Calculations}\label{calculations}}
+
+    \hypertarget{returns-single-float-of-ovi-fraction-electron-density-emissivity-of-ovi1031ovi1037-and-total-emissivity-of-ovi}{%
+\subparagraph{Returns single float of OVI fraction, electron density,
+emissivity of OVI1031/OVI1037, and total emissivity of
+OVI}\label{returns-single-float-of-ovi-fraction-electron-density-emissivity-of-ovi1031ovi1037-and-total-emissivity-of-ovi}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{216}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{O6frac}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{OVI\PYZus{}prob}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{O+5}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}O6total=np.average(ovr.loc[:,\PYZsq{}eden\PYZsq{}].values)}
+\PY{n}{eden}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{ovr}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{eden}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{)}
+\PY{n}{emis1031}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{tenthirtyone}\PY{o}{.}\PY{n}{values}\PY{p}{)}
+\PY{n}{emis1037}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{tenthirtyseven}\PY{o}{.}\PY{n}{values}\PY{p}{)}
+\PY{n}{hden}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{ovr}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hden}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The OVI fraction is}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{O6frac}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}print(\PYZsq{}OVI total is\PYZsq{},O6total)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The electron density is}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{eden}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The emissivity of OVI1031 is}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{emis1031}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The emissivity of OVI1037 is}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{emis1037}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The total emissivity of OVI is}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{emis1037}\PY{o}{+}\PY{n}{emis1037}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+The OVI fraction is 3.5415151515151514e-11
+The electron density is 0.0037975969696969697
+The emissivity of OVI1031 is 2.031681818181818e-39
+The emissivity of OVI1037 is 1.0105363636363635e-39
+The total emissivity of OVI is 2.021072727272727e-39
+    \end{Verbatim}
+
+    \hypertarget{gives-number-of-oxygnvi-and-column-densities}{%
+\subparagraph{Gives number of oxygnVI and Column
+Densities}\label{gives-number-of-oxygnvi-and-column-densities}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{217}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Noxy\PYZus{}Sol}\PY{o}{=}\PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{o}{\PYZhy{}}\PY{l+m+mf}{3.309}
+\PY{n}{Zsol}\PY{o}{=}\PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}
+\PY{n}{nOVI}\PY{o}{=}\PY{n}{O6frac}\PY{o}{*}\PY{n}{Zsol}\PY{o}{*}\PY{n}{Noxy\PYZus{}Sol}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{nOVI is}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{nOVI}\PY{p}{)}
+\PY{n}{length}\PY{o}{=}\PY{n}{ovr}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}depth}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZhy{}}  \PY{n}{ovr}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}depth}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}
+\PY{n}{N\PYZus{}OVI}\PY{o}{=}\PY{n}{nOVI}\PY{o}{*}\PY{n}{length}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Column density of OVI is}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{N\PYZus{}OVI}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+nOVI is 1.7385576813925667e-15
+Column density of OVI is 1692.0060609155994
+    \end{Verbatim}
+
+    \hypertarget{this-will-give-you-the-list-of-classes-for-th-cloudy-output}{%
+\subsection{This will give you the list of classes for th cloudy
+output}\label{this-will-give-you-the-list-of-classes-for-th-cloudy-output}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Mod} \PY{o}{=} \PY{n}{pc}\PY{o}{.}\PY{n}{CloudyModel}\PY{p}{(}\PY{n}{pathtorun}\PY{p}{)}\PY{p}{;}
+\PY{c+c1}{\PYZsh{} dir(Mod) \PYZsh{}remove \PYZsh{} at beginning to print list}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+     CloudyModel ./ASTR302: Creating CloudyModel for ./ASTR302
+     CloudyModel ./ASTR302: ./ASTR302.rad read
+     CloudyModel ./ASTR302: Number of zones: 33
+     CloudyModel ./ASTR302: ./ASTR302.phy read
+     CloudyModel ./ASTR302: ./ASTR302.ele\_H read
+     CloudyModel ./ASTR302: filling H with 3 columns
+     CloudyModel ./ASTR302: ./ASTR302.ele\_He read
+     CloudyModel ./ASTR302: filling He with 3 columns
+     CloudyModel ./ASTR302: ./ASTR302.ele\_C read
+     CloudyModel ./ASTR302: filling C with 13 columns
+     CloudyModel ./ASTR302: ./ASTR302.ele\_N read
+     CloudyModel ./ASTR302: filling N with 8 columns
+     CloudyModel ./ASTR302: ./ASTR302.ele\_O read
+     CloudyModel ./ASTR302: filling O with 12 columns
+     CloudyModel ./ASTR302: ./ASTR302.ele\_Ne read
+     CloudyModel ./ASTR302: filling Ne with 11 columns
+     CloudyModel ./ASTR302: ./ASTR302.ele\_Ar read
+     CloudyModel ./ASTR302: filling Ar with 19 columns
+     CloudyModel ./ASTR302: ./ASTR302.ele\_S read
+     CloudyModel ./ASTR302: filling S with 17 columns
+     CloudyModel ./ASTR302: ./ASTR302.ele\_Cl read
+     CloudyModel ./ASTR302: filling Cl with 18 columns
+     CloudyModel ./ASTR302: ./ASTR302.ele\_Fe read
+     CloudyModel ./ASTR302: filling Fe with 27 columns
+     CloudyModel ./ASTR302: ./ASTR302.ele\_Si read
+     CloudyModel ./ASTR302: filling Si with 15 columns
+     CloudyModel ./ASTR302: ./ASTR302.emis read
+     CloudyModel ./ASTR302: Number of emissivities: 4
+     CloudyModel ./ASTR302: ./ASTR302.cont read
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Mod}\PY{o}{.}\PY{n}{print\PYZus{}lines}\PY{p}{(}\PY{p}{)}
+\PY{n}{Mod}\PY{o}{.}\PY{n}{print\PYZus{}stats}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+H\_\_1\_486133A 1.931812e+44
+H\_\_1\_656281A 5.251109e+44
+O\_\_6\_103100A 2.411241e+40
+O\_\_6\_103762A 1.199328e+40
+ Name of the model: ./ASTR302
+ R\_in (cut) = 1.000e+30 (1.000e+30), R\_out (cut) = 1.000e+30 (1.000e+30)
+ H+ mass = 3.34e+19, H mass = 3.34e+19 N zones: 33
+ <H+/H> = 1.00, <He++/He> = 1.00, <He+/He> = 0.00
+ <O+++/O> = 0.00, <O++/O> = 0.00, <O+/O> = 0.00
+ <N+++/N> = 0.00, <N++/N> = 0.00, <N+/N> = 0.00
+ T(O+++) = 100000000, T(O++) = 100000000, T(O+) = 100000000
+ <ne> = 0,  <nH> = 0, T0 = 100000000, t2=0.0000
+ <log U> = -2.11
+    \end{Verbatim}
+
+    \hypertarget{save-simulation-data-for-future-use}{%
+\subsection{Save Simulation data for future
+use}\label{save-simulation-data-for-future-use}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{170}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} run this once }
+\PY{n}{location}\PY{o}{=}\PY{l+m+mi}{0}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{171}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} run this once }
+\PY{n}{SimuDatKeyset}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{H Density Log /cm\PYZca{}3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{e Density Log /cm\PYZca{}3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OVI Probability}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OVI 1031+1037 Emis}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{SimnDat}\PY{o}{=}\PY{p}{[}\PY{n}{hden}\PY{p}{,} \PY{n}{eden}\PY{p}{,}\PY{n}{O6frac}\PY{p}{,}\PY{n}{emis1031}\PY{o}{+}\PY{n}{emis1037}\PY{p}{]}
+\PY{n}{matrix}\PY{o}{=}\PY{p}{\PYZob{}}\PY{n}{SimuDatKeyset}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{:}\PY{p}{[}\PY{n}{SimnDat}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{,}\PY{n}{SimuDatKeyset}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{:}\PY{p}{[}\PY{n}{SimnDat}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{p}{,}\PY{n}{SimuDatKeyset}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{:}\PY{p}{[}\PY{n}{SimnDat}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{]}\PY{p}{,}\PY{n}{SimuDatKeyset}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{:}\PY{p}{[}\PY{n}{SimnDat}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{]}\PY{p}{\PYZcb{}}
+\PY{n}{PastSimulationData}\PY{o}{=}\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{matrix}\PY{p}{,}\PY{n}{index}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Temp:1e}\PY{l+s+si}{\PYZob{}Temp:1.1f\PYZcb{}}\PY{l+s+s2}{ K , hden: }\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{np.log10(hden):1.1f\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{)}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}
+\PY{n}{PastSimulationData}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{171}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                     Temp:1e7.0 K , hden: -2.5
+H Density Log /cm\^{}3               3.162300e-03
+e Density Log /cm\^{}3               3.797497e-03
+OVI Probability                   3.160000e-07
+OVI 1031+1037 Emis                5.741494e-35
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{198}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{SimnDat}\PY{o}{=}\PY{p}{[}\PY{n}{hden}\PY{p}{,} \PY{n}{eden}\PY{p}{,}\PY{n}{O6frac}\PY{p}{,}\PY{n}{emis1031}\PY{o}{+}\PY{n}{emis1037}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{this-will-add-new-sim-data-to-table}{%
+\subparagraph{This will add new sim data to
+table}\label{this-will-add-new-sim-data-to-table}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{221}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{location}\PY{o}{=}\PY{n}{location}\PY{o}{+}\PY{l+m+mi}{1}
+\PY{n}{PastSimulationData}\PY{o}{.}\PY{n}{insert}\PY{p}{(}\PY{n}{location}\PY{p}{,}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Temp:1e}\PY{l+s+si}{\PYZob{}Temp:1.1f\PYZcb{}}\PY{l+s+s2}{ K , hden: }\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{np.log10(hden):1.1f\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{SimnDat}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{222}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{PastSimulationData}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{222}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                     Temp:1e7.0 K , hden: -2.5  Temp:1e7.0 K , hden: -2.0  \textbackslash{}
+H Density Log /cm\^{}3               3.162300e-03               1.000000e-02
+e Density Log /cm\^{}3               3.797497e-03               1.200900e-02
+OVI Probability                   3.160000e-07               3.170000e-07
+OVI 1031+1037 Emis                5.741494e-35               5.555100e-34
+
+                     Temp:1e8.0 K , hden: -2.5
+H Density Log /cm\^{}3               1.000000e-02
+e Density Log /cm\^{}3               1.200900e-02
+OVI Probability                   3.170000e-07
+OVI 1031+1037 Emis                5.555100e-34
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{save-pastsimulationdata-as-csv-file}{%
+\subsubsection{Save PastSimulationData as csv
+file}\label{save-pastsimulationdata-as-csv-file}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{PastSimulationData}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./CloudyDataTables/SimulationData.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{220}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
